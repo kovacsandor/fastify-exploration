@@ -1,8 +1,10 @@
 import fastify from "fastify";
-import { postHeathRoute } from "./routes/post-health.route";
+import { logErrorsHook } from "./plugins";
+import { postHeathRoute } from "./routes";
 
 const server = fastify();
 
+server.register(logErrorsHook);
 server.register(postHeathRoute);
 
 const start = async () => {
