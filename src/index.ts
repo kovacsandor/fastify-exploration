@@ -1,10 +1,12 @@
 import fastify from "fastify";
-import { logErrorsHook } from "./plugins";
+import { authenticateUserHook, logErrorsHook } from "./hooks";
 import { postHeathRoute } from "./routes";
 
 const server = fastify();
 
+server.register(authenticateUserHook);
 server.register(logErrorsHook);
+
 server.register(postHeathRoute);
 
 const start = async () => {
