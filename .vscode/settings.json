@@ -1,0 +1,9 @@
+{
+  "cSpell.words": ["fastify"],
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "always"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.rulers": [120]
+}
