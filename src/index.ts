@@ -1,16 +1,9 @@
 import fastify from "fastify";
-import { RoutePostHealthType } from "./types";
+import { postHeathRoute } from "./routes/post-health.route";
 
 const server = fastify();
 
-server.post<RoutePostHealthType>("/health/:propertyInParam", async (request) => {
-  console.log("request.body.body.propertyInBody", request.body.propertyInBody);
-  console.log("request.headers.headers.propertyInHeader", request.headers["property-in-header"]);
-  console.log("request.params.params.propertyInParam", request.params.propertyInParam);
-  console.log("request.query.query.propertyInQuery", request.query.propertyInQuery);
-
-  return { propertyInReply: "propertyInReply" };
-});
+server.register(postHeathRoute);
 
 const start = async () => {
   const port = Number(process.env.PORT) || 8080;
