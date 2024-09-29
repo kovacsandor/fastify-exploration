@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["fastify"],
+  "cSpell.words": ["fastify", "testcontainers"],
   "editor.codeActionsOnSave": {
     "source.organizeImports": "always"
   },

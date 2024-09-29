@@ -8,9 +8,9 @@ declare module "fastify" {
   }
 }
 
-export const authenticateUserHook: FastifyPluginAsync = fastifyPlugin(async (fastify) => {
-  fastify.decorateRequest("user", undefined);
-  fastify.addHook("onRequest", async (request) => {
+export const authenticateUserPlugin: FastifyPluginAsync = fastifyPlugin(async (fastifyInstance) => {
+  fastifyInstance.decorateRequest("user", undefined);
+  fastifyInstance.addHook("onRequest", async (request) => {
     request.user = { id: 1 };
   });
 });
