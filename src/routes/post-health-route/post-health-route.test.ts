@@ -1,18 +1,38 @@
-import fastify from "fastify";
+import fastify, { FastifyInstance } from "fastify";
 import { authenticateUserPlugin } from "../../plugins";
 import { postHeathRoute } from "./post-health-route";
 import { RoutePostHealthReplyType } from "./types";
 
 describe("post-health-route", () => {
-  test("returns correct response", async () => {
-    const fastifyInstance = fastify();
+  let fastifyInstance: FastifyInstance;
+  let spy: jest.SpyInstance;
+
+  beforeAll(() => {
+    fastifyInstance = fastify();
 
     fastifyInstance.register(authenticateUserPlugin);
     fastifyInstance.register(postHeathRoute);
+    spy = jest.spyOn(console, "log").mockImplementation();
+  });
 
-    const spy = jest.spyOn(console, "log").mockImplementation();
+  afterEach(() => {
+    spy.mockClear();
+  });
 
+  test("returns correct response", async () => {
     const { json } = await fastifyInstance.inject({
+      method: "POST",
+      url: "/health/propertyInParam",
+      payload: {},
+    });
+
+    const response = json<RoutePostHealthReplyType>();
+
+    expect(response).toEqual({ propertyInReply: "propertyInReply" });
+  });
+
+  test("logs expected outputs", async () => {
+    await fastifyInstance.inject({
       method: "POST",
       url: "/health/propertyInParam",
       payload: {
@@ -31,9 +51,26 @@ describe("post-health-route", () => {
     expect(spy).toHaveBeenCalledWith("request.params.propertyInParam", "propertyInParam");
     expect(spy).toHaveBeenCalledWith("request.query.propertyInQuery", "propertyInQuery");
     expect(spy).toHaveBeenCalledWith("request.user", { id: 1 });
+  });
 
-    const response = json<RoutePostHealthReplyType>();
+  test("validates request", async () => {
+    const { json } = await fastifyInstance.inject({
+      method: "POST",
+      url: "/health/propertyInParam",
+      payload: {
+        propertyInBody: "invalid value",
+      },
+    });
 
-    expect(response).toEqual({ propertyInReply: "propertyInReply" });
+    const response = json();
+
+    const expectation = {
+      statusCode: 400,
+      code: "FST_ERR_VALIDATION",
+      error: "Bad Request",
+      message: "body/propertyInBody must be equal to constant",
+    };
+
+    expect(response).toEqual(expectation);
   });
 });
