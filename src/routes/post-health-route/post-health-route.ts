@@ -1,12 +1,17 @@
 import { FastifyPluginAsync } from "fastify";
 import { postHeathJsonschema } from "./json-schemas";
-import { RoutePostHealthType } from "./types";
+import { RoutePostHealthOptionsType } from "./types";
+import { RoutePostHealthType } from "./types/route-post-health-type";
 
-export const postHeathRoute: FastifyPluginAsync = async (fastifyInstance) => {
+export const postHeathRoute: FastifyPluginAsync<RoutePostHealthOptionsType> = async (
+  fastifyInstance,
+  { propertyInOptions },
+): Promise<void> => {
   fastifyInstance.post<RoutePostHealthType>(
     "/health/:propertyInParam",
     { schema: postHeathJsonschema },
     async (request) => {
+      console.log("propertyInOptions", propertyInOptions);
       console.log("request.body.propertyInBody", request.body?.propertyInBody);
       console.log("request.headers.property-in-header", request.headers["property-in-header"]);
       console.log("request.params.propertyInParam", request.params?.propertyInParam);

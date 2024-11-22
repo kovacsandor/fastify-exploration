@@ -1,11 +1,17 @@
 import fastifyPostgres, { PostgresPluginOptions } from "@fastify/postgres";
 import { FastifyPluginAsync } from "fastify";
 import { fastifyPlugin } from "fastify-plugin";
+import { ConnectDatabasePluginOptionsType } from "./types";
 
-export const connectDatabasePlugin: FastifyPluginAsync = fastifyPlugin(async (fastifyInstance) => {
+const callback: FastifyPluginAsync<ConnectDatabasePluginOptionsType> = async (
+  fastifyInstance,
+  { connectionString },
+): Promise<void> => {
   const options: PostgresPluginOptions = {
-    connectionString: process.env.POSTGRES_CONNECTION_STRING,
+    connectionString,
   };
 
   fastifyInstance.register(fastifyPostgres, options);
-});
+};
+
+export const connectDatabasePlugin: FastifyPluginAsync<ConnectDatabasePluginOptionsType> = fastifyPlugin(callback);

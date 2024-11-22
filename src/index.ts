@@ -3,7 +3,10 @@ import { app } from "./app";
 
 const start = async () => {
   const fastifyInstance = fastify();
-  fastifyInstance.register(app);
+  fastifyInstance.register(app, {
+    connectionString: process.env.POSTGRES_CONNECTION_STRING,
+    propertyInOptions: "propertyInOptions",
+  });
 
   const port = Number(process.env.PORT) || 8080;
 

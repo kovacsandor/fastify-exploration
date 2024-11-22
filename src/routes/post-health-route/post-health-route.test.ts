@@ -1,7 +1,7 @@
 import fastify, { FastifyInstance } from "fastify";
 import { authenticateUserPlugin } from "../../plugins";
 import { postHeathRoute } from "./post-health-route";
-import { RoutePostHealthReplyType } from "./types";
+import { RoutePostHealthReplyType } from "./types/route-post-health-reply-type";
 
 describe("post-health-route", () => {
   let fastifyInstance: FastifyInstance;
@@ -11,7 +11,7 @@ describe("post-health-route", () => {
     fastifyInstance = fastify();
 
     fastifyInstance.register(authenticateUserPlugin);
-    fastifyInstance.register(postHeathRoute);
+    fastifyInstance.register(postHeathRoute, { propertyInOptions: "propertyInOptions" });
     spy = jest.spyOn(console, "log").mockImplementation();
   });
 
@@ -46,6 +46,7 @@ describe("post-health-route", () => {
       },
     });
 
+    expect(spy).toHaveBeenCalledWith("propertyInOptions", "propertyInOptions");
     expect(spy).toHaveBeenCalledWith("request.body.propertyInBody", "propertyInBody");
     expect(spy).toHaveBeenCalledWith("request.headers.property-in-header", "property-in-header");
     expect(spy).toHaveBeenCalledWith("request.params.propertyInParam", "propertyInParam");

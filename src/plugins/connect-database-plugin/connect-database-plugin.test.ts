@@ -5,16 +5,12 @@ import { connectDatabasePlugin } from "./connect-database-plugin";
 describe("connect-database-plugin", () => {
   let postgreSqlContainer: PostgreSqlContainer;
   let startedContainer: StartedPostgreSqlContainer;
+  let connectionString: string;
 
   beforeAll(async () => {
     postgreSqlContainer = new PostgreSqlContainer();
-
     startedContainer = await postgreSqlContainer.start();
-
-    process.env = {
-      ...process.env,
-      POSTGRES_CONNECTION_STRING: startedContainer.getConnectionUri(),
-    };
+    connectionString = startedContainer.getConnectionUri();
   });
 
   afterAll(async () => {
@@ -23,7 +19,8 @@ describe("connect-database-plugin", () => {
 
   test("connects to database, decorates fastify instance with pg client", async () => {
     const fastifyInstance = fastify();
-    fastifyInstance.register(connectDatabasePlugin);
+
+    fastifyInstance.register(connectDatabasePlugin, { connectionString });
 
     const route = "/test-route";
 

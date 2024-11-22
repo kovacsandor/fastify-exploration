@@ -1,13 +1,25 @@
-import { FastifyPluginAsync } from "fastify";
+import { FastifyPluginCallback } from "fastify";
 import fastifyPlugin from "fastify-plugin";
-import { authenticateUserPlugin, connectDatabasePlugin, logErrorsPlugin } from "./plugins";
-import { postHeathRoute } from "./routes";
+import {
+  authenticateUserPlugin,
+  connectDatabasePlugin,
+  ConnectDatabasePluginOptionsType,
+  logErrorsPlugin,
+} from "./plugins";
+import { postHeathRoute, RoutePostHealthOptionsType } from "./routes";
 
-export const app: FastifyPluginAsync = fastifyPlugin(async (fastifyInstance) => {
-  fastifyInstance.register(connectDatabasePlugin);
+type AppOptionsType = ConnectDatabasePluginOptionsType & RoutePostHealthOptionsType;
+
+const callback: FastifyPluginCallback<AppOptionsType> = async (
+  fastifyInstance,
+  { connectionString, propertyInOptions },
+): Promise<void> => {
+  fastifyInstance.register(connectDatabasePlugin, { connectionString });
 
   fastifyInstance.register(authenticateUserPlugin);
   fastifyInstance.register(logErrorsPlugin);
 
-  fastifyInstance.register(postHeathRoute);
-});
+  fastifyInstance.register(postHeathRoute, { propertyInOptions });
+};
+
+export const app: FastifyPluginCallback<AppOptionsType> = fastifyPlugin(callback);
