@@ -4,7 +4,7 @@ import { app } from "./app";
 const start = async () => {
   const fastifyInstance = fastify();
   fastifyInstance.register(app, {
-    connectionString: process.env.POSTGRES_CONNECTION_STRING,
+    connectionString: process.env.POSTGRES_CONNECTION_STRING!,
     propertyInOptions: "propertyInOptions",
   });
 
