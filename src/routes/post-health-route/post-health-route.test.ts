@@ -1,18 +1,20 @@
 import fastify, { FastifyInstance } from "fastify";
+import { Console } from "node:console";
+import { afterEach, beforeAll, describe, expect, MockInstance, test, vitest } from "vitest";
 import { authenticateUserPlugin } from "../../plugins";
 import { postHeathRoute } from "./post-health-route";
 import { RoutePostHealthReplyType } from "./types/route-post-health-reply-type";
 
 describe("post-health-route", () => {
   let fastifyInstance: FastifyInstance;
-  let spy: jest.SpyInstance;
+  let spy: MockInstance<typeof Console.prototype.log>;
 
   beforeAll(() => {
     fastifyInstance = fastify();
 
     fastifyInstance.register(authenticateUserPlugin);
     fastifyInstance.register(postHeathRoute, { propertyInOptions: "propertyInOptions" });
-    spy = jest.spyOn(console, "log").mockImplementation();
+    spy = vitest.spyOn(console, "log").mockImplementation(() => {});
   });
 
   afterEach(() => {

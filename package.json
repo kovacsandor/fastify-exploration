@@ -6,7 +6,7 @@
   "scripts": {
     "format": "prettier . --write",
     "start": "ts-node src/index.ts",
-    "test": "jest --detectOpenHandles"
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
@@ -21,16 +21,14 @@
   },
   "devDependencies": {
     "@testcontainers/postgresql": "^10.13.1",
-    "@types/jest": "^29.5.13",
     "@types/json-schema": "^7.0.15",
     "@types/node": "^22.7.4",
     "@types/pg": "^8.11.10",
     "ajv": "^8.17.1",
-    "jest": "^29.7.0",
     "prettier": "^3.3.3",
     "prettier-plugin-embed": "^0.4.15",
     "prettier-plugin-sql": "^0.18.1",
-    "ts-jest": "^29.2.5",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.8"
   }
 }

@@ -1,5 +1,6 @@
 import { PostgreSqlContainer, StartedPostgreSqlContainer } from "@testcontainers/postgresql";
 import fastify from "fastify";
+import { afterAll, beforeAll, describe, expect, test } from "vitest";
 import { connectDatabasePlugin } from "./connect-database-plugin";
 
 describe("connect-database-plugin", () => {

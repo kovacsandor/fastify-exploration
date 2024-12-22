@@ -1,4 +1,5 @@
 import fastify from "fastify";
+import { describe, expect, test, vitest } from "vitest";
 import { logErrorsPlugin } from "./log-errors-plugin";
 
 describe("log-errors-plugin", () => {
@@ -15,7 +16,7 @@ describe("log-errors-plugin", () => {
       });
     });
 
-    const spy = jest.spyOn(console, "error").mockImplementation();
+    const spy = vitest.spyOn(console, "error").mockImplementation(() => {});
 
     await fastifyInstance.inject({
       method: "GET",

@@ -1,4 +1,5 @@
 import fastify from "fastify";
+import { describe, expect, test } from "vitest";
 import { authenticateUserPlugin } from "./authenticate-user-plugin";
 import { AuthenticatedUserType } from "./types";
 

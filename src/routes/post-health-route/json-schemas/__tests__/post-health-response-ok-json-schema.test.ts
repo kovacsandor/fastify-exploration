@@ -1,4 +1,5 @@
 import Ajv, { ValidateFunction } from "ajv";
+import { beforeAll, describe, expect, test } from "vitest";
 import { postHeathResponseOkJsonSchema } from "../post-health-response-ok-json-schema";
 
 const ajv = new Ajv();
