@@ -1,7 +1,6 @@
 import fastify, { FastifyInstance } from "fastify";
 import { Console } from "node:console";
 import { afterEach, beforeAll, describe, expect, MockInstance, test, vitest } from "vitest";
-import { authenticateUserPlugin } from "../../plugins";
 import { postHeathRoute } from "./post-health-route";
 import { RoutePostHealthReplyType } from "./types/route-post-health-reply-type";
 
@@ -12,7 +11,6 @@ describe("post-health-route", () => {
   beforeAll(() => {
     fastifyInstance = fastify();
 
-    fastifyInstance.register(authenticateUserPlugin);
     fastifyInstance.register(postHeathRoute, { propertyInOptions: "propertyInOptions" });
     spy = vitest.spyOn(console, "log").mockImplementation(() => {});
   });

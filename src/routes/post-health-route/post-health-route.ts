@@ -1,4 +1,5 @@
 import { FastifyPluginAsync } from "fastify";
+import { authenticateUserPlugin } from "../../plugins";
 import { postHeathJsonschema } from "./json-schemas";
 import { RoutePostHealthOptionsType } from "./types";
 import { RoutePostHealthType } from "./types/route-post-health-type";
@@ -7,6 +8,7 @@ export const postHeathRoute: FastifyPluginAsync<RoutePostHealthOptionsType> = as
   fastifyInstance,
   { propertyInOptions },
 ): Promise<void> => {
+  fastifyInstance.register(authenticateUserPlugin);
   fastifyInstance.post<RoutePostHealthType>(
     "/health/:propertyInParam",
     { schema: postHeathJsonschema },
