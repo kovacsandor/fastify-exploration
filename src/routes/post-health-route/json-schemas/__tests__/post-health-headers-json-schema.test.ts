@@ -1,6 +1,6 @@
 import Ajv, { ValidateFunction } from "ajv";
 import { beforeAll, describe, expect, test } from "vitest";
-import { postHeathHeadersJsonSchema } from "../post-health-headers-json-schema";
+import { postHealthHeadersJsonSchema } from "../post-health-headers-json-schema";
 
 const ajv = new Ajv();
 
@@ -8,7 +8,7 @@ describe("post-health-params-json-schema", () => {
   let validate: ValidateFunction;
 
   beforeAll(() => {
-    validate = ajv.compile(postHeathHeadersJsonSchema);
+    validate = ajv.compile(postHealthHeadersJsonSchema);
   });
 
   test("validates a correct data", () => {

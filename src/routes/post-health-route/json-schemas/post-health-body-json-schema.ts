@@ -1,6 +1,6 @@
 import { JSONSchema7 } from "json-schema";
 
-export const postHeathBodyJsonSchema: JSONSchema7 = {
+export const postHealthBodyJsonSchema: JSONSchema7 = {
   additionalProperties: false,
   properties: {
     propertyInBody: {
